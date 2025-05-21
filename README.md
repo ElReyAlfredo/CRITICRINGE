@@ -28,7 +28,7 @@ Criticringe permite a los usuarios:
 ## 🛠️ Tecnologías utilizadas
 
 - HTML, CSS, JavaScript
-- Framework frontend (React, Vue, etc.)
+- Framework frontend React
 - Backend/API (Node.js, Firebase, etc.)
 - Base de datos de películas (IMDb API u otra)
 
