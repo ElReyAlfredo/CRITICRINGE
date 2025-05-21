@@ -35,7 +35,7 @@ Criticringe permite a los usuarios:
 ## ⚙️ Instalación
 
 ```bash
-git clone https://github.com/tuusuario/criticringe.git
+git clone https://github.com/ElReyAlfredo/CRITICRINGE.git
 cd criticringe
 npm install
 npm run dev
