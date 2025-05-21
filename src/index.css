@@ -1,0 +1,984 @@
+/* CritiCringe - Estilo para una web de crítica de películas malas */
+:root {
+  /* Paleta inspirada en VHS y cine B */
+  --color-primary: #ff4d4d; /* Rojo saturado */
+  --color-primary-light: #ff7070;
+  --color-primary-dark: #cc0000;
+  --color-accent: #ffcc00; /* Amarillo/dorado para contraste */
+  --color-accent-dark: #cc9900;
+
+  /* Fondos oscuros para el tema de "cine malo" */
+  --color-background-100: #3a2a2a; /* Tono rojizo oscuro */
+  --color-background-500: #2a1a1a;
+  --color-background-900: #1a0a0a;
+
+  /* Textos */
+  --color-text: #ffeeee; /* Blanco con toque rojizo */
+  --color-text-dark: #aaa1a1;
+
+  /* Colores de alerta */
+  --color-bad-rating: #32cd32; /* Verde para calificaciones "malas" (que son buenas) */
+  --color-good-rating: #ff4d4d; /* Rojo para calificaciones "buenas" (que son malas) */
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Comic Sans MS", cursive, sans-serif; /* Fuente "mala" intencionalmente */
+  color: var(--color-text);
+  background-color: var(--color-background-900);
+  background-image: url("https://www.transparenttextures.com/patterns/fabric-of-squares.png");
+  padding: 2.4rem;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* Elementos de navegación */
+.nav-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  height: 9rem; /* Aumentada desde 8rem */
+  padding: 0 3.2rem;
+  background-color: var(--color-background-100);
+  background-image: url("https://www.transparenttextures.com/patterns/black-thread-light.png");
+  border-radius: 0.9rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  border: 3px solid var(--color-primary);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2.4rem;
+}
+
+/* Efecto VHS en la barra de navegación */
+.nav-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    var(--color-accent),
+    var(--color-primary)
+  );
+  z-index: 1;
+}
+
+/* Efecto de escaneo VHS */
+.nav-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.3);
+  opacity: 0.5;
+  box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.4);
+  animation: scanline 3s linear infinite;
+  z-index: 2;
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(800%);
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  z-index: 10;
+  position: relative;
+}
+
+.logo span {
+  font-size: 3.6rem;
+  transform: rotate(-5deg);
+  filter: drop-shadow(2px 2px 0 black);
+}
+
+.logo h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 3px 3px 0 #ff0000, -1px -1px 0 #000, 1px -1px 0 #000,
+    -1px 1px 0 #000, 1px 1px 0 #000;
+  transform: rotate(-2deg);
+  display: inline-block;
+}
+
+.logo-tagline {
+  font-size: 1.6rem;
+  font-style: italic;
+  color: #ffffff;
+  text-shadow: 1px 1px 0 black;
+  white-space: nowrap;
+  position: absolute;
+  bottom: -1.8rem;
+  left: 6rem;
+  transform: rotate(-1deg);
+}
+
+.search {
+  justify-self: center;
+  border: 2px dashed var(--color-primary);
+  padding: 1.1rem 1.6rem;
+  font-size: 1.8rem;
+  border-radius: 0.7rem;
+  width: 40rem;
+  transition: all 0.3s;
+  color: var(--color-background-900);
+  background-color: var(--color-text-dark);
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.search::placeholder {
+  color: #555;
+  font-style: italic;
+}
+
+.search:focus {
+  outline: none;
+  box-shadow: 0 0 15px rgba(255, 77, 77, 0.6);
+  transform: translateY(-2px) scale(1.03);
+  background-color: var(--color-text);
+  border-style: solid;
+}
+
+.num-results {
+  justify-self: end;
+  font-size: 1.8rem;
+  background-color: var(--color-primary);
+  padding: 0.8rem 1.6rem;
+  border-radius: 2rem;
+  transform: rotate(2deg);
+  font-weight: bold;
+  text-shadow: 1px 1px 0 black;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+  border: 2px solid black;
+  z-index: 3;
+}
+
+/* Estructura principal */
+.main {
+  margin-top: 2.4rem;
+  min-height: calc(100vh - 7.2rem - 5 * 2.4rem);
+  display: flex;
+  gap: 2.4rem;
+  justify-content: center;
+}
+
+/* Cajas de contenido */
+.box {
+  width: 42rem;
+  max-width: 42rem;
+  background-color: var(--color-background-500);
+  background-image: url("https://www.transparenttextures.com/patterns/black-thread-light.png");
+  border-radius: 0.9rem;
+  overflow: auto; /* Cambiado de 'hidden' a 'auto' para permitir scroll cuando sea necesario */
+  position: relative;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  border: 3px solid var(--color-primary);
+  min-height: 50vh; /* Asegura una altura mínima */
+  display: flex;
+  flex-direction: column;
+}
+
+.box::-webkit-scrollbar {
+  width: 10px;
+}
+
+.box::-webkit-scrollbar-track {
+  background: var(--color-background-900);
+  border-radius: 0 0.9rem 0.9rem 0;
+}
+
+.box::-webkit-scrollbar-thumb {
+  background: var(--color-primary-dark);
+  border-radius: 5px;
+  border: 1px solid var(--color-background-900);
+}
+
+.btn-toggle {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  height: 3rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid var(--color-text);
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  font-size: 1.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 999;
+  transform: rotate(5deg);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+  transition: all 0.2s;
+}
+
+.btn-toggle:hover {
+  background-color: var(--color-primary-dark);
+  transform: rotate(0deg) scale(1.1);
+}
+
+/* Listas */
+.list {
+  list-style: none;
+  padding: 0.8rem 0;
+  overflow: auto;
+  max-height: calc(100vh - 20rem);
+  min-height: 40vh;
+}
+
+.list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.list::-webkit-scrollbar-track {
+  background: var(--color-background-900);
+}
+
+.list::-webkit-scrollbar-thumb {
+  background: var(--color-primary-dark);
+  border-radius: 4px;
+}
+
+.list-watched {
+  height: calc(100% - 11rem);
+  flex-grow: 1;
+}
+
+/* Películas en la lista */
+.list li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 2.4rem;
+  font-size: 1.6rem;
+  align-items: center;
+  padding: 1.6rem 3.2rem;
+  border-bottom: 2px dotted var(--color-primary);
+  background: rgba(58, 42, 42, 0.5);
+}
+
+.list.list-movies li {
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.list.list-movies li:hover {
+  background-color: rgba(80, 30, 30, 0.8);
+  transform: scale(1.03) rotate(0.5deg);
+}
+
+.list img {
+  width: 100%;
+  grid-row: 1 / -1;
+  border-radius: 0.4rem;
+  border: 2px solid var(--color-text);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s;
+  transform: rotate(-3deg);
+}
+
+.list.list-movies li:hover img {
+  transform: rotate(0deg) scale(1.1);
+}
+
+.list h3 {
+  font-size: 1.8rem;
+  margin-bottom: 0.4rem;
+  color: var(--color-accent);
+  text-shadow: 1px 1px 0 black;
+}
+
+.list div {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+}
+
+.list p {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/* Botón de eliminar película */
+.btn-delete {
+  position: absolute;
+  right: 2.4rem;
+  height: 2.4rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid black;
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.4s;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.btn-delete:hover {
+  background-color: #ff0000;
+  transform: rotate(360deg);
+}
+
+/* Loader y mensajes de error */
+.loader {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 2.4rem;
+  font-weight: 600;
+  margin: 4.8rem auto;
+  color: var(--color-accent);
+  text-shadow: 2px 2px 0 black;
+  animation: pulse 1.5s infinite;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+}
+
+.loader p {
+  color: var(--color-accent);
+  text-shadow: 1px 1px 0 black;
+  font-weight: bold;
+  animation: pulse 1.5s infinite;
+}
+
+.loader-tape {
+  width: 100px;
+  height: 100px;
+  background-color: #222;
+  border-radius: 50%;
+  position: relative;
+  border: 5px solid var(--color-primary);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.loader-reel {
+  width: 40px;
+  height: 40px;
+  background-color: var(--color-accent);
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: spin 2s linear infinite;
+}
+
+.loader-reel::before,
+.loader-reel::after {
+  content: "";
+  position: absolute;
+  background-color: var(--color-background-900);
+  border-radius: 50%;
+}
+
+.loader-reel::before {
+  width: 15px;
+  height: 15px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.loader-reel::after {
+  width: 100%;
+  height: 5px;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.5;
+    transform: scale(0.95);
+  }
+}
+
+.error {
+  text-align: center;
+  font-size: 2.4rem;
+  padding: 4.8rem;
+  color: var(--color-primary);
+  text-shadow: 1px 1px 0 black;
+}
+
+/* Resumen de películas vistas */
+.summary {
+  padding: 2.2rem 3.2rem 1.8rem 3.2rem;
+  border-radius: 0.9rem 0.9rem 0 0;
+  background-color: rgba(30, 10, 10, 0.7);
+  box-shadow: 0 1.2rem 2.4rem rgba(0, 0, 0, 0.2);
+  border-bottom: 2px dotted var(--color-primary);
+}
+
+.summary h2 {
+  text-transform: uppercase;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: var(--color-accent);
+  text-shadow: 1px 1px 0 black;
+  letter-spacing: 1px;
+}
+
+.summary div {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+  flex-wrap: wrap;
+}
+
+.summary p {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  white-space: nowrap;
+}
+
+/* Invertimos los colores para valoraciones (peor = mejor en CritiCringe) */
+.summary p:nth-child(3) span:nth-child(2) {
+  /* Calificación IMDB */
+  color: var(
+    --color-good-rating
+  ); /* Rojo para calificaciones "buenas" (que son malas en CritiCringe) */
+}
+
+.summary p:nth-child(4) span:nth-child(2) {
+  /* Calificación usuario */
+  color: var(
+    --color-bad-rating
+  ); /* Verde para calificaciones "malas" (que son buenas en CritiCringe) */
+}
+
+.collection-message {
+  margin-top: 1.5rem;
+  font-style: italic;
+  text-align: center;
+  color: var(--color-accent);
+  font-size: 1.4rem;
+  text-shadow: 1px 1px 0 black;
+}
+
+/* Películas en la lista de vistas */
+.watched-movie-item {
+  position: relative;
+  border-bottom: 2px dotted var(--color-primary);
+  padding: 2rem 3.2rem;
+  background: rgba(58, 42, 42, 0.5);
+  transition: all 0.3s;
+}
+
+.watched-movie-item:hover {
+  background-color: rgba(80, 30, 30, 0.8);
+  transform: scale(1.02);
+}
+
+.watched-movie-item img {
+  border: 3px solid var(--color-text);
+  transform: rotate(-3deg);
+  transition: transform 0.3s;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.watched-movie-item:hover img {
+  transform: rotate(0deg);
+}
+
+.cringe-rating {
+  color: var(--color-bad-rating);
+  font-weight: bold;
+}
+
+.rating-label {
+  font-size: 1.2rem;
+  opacity: 0.8;
+  margin-left: 0.4rem;
+}
+
+.cringe-badge {
+  position: absolute;
+  bottom: 1rem;
+  left: 7rem;
+  background-color: var(--color-primary-dark);
+  color: var(--color-text);
+  padding: 0.4rem 0.8rem;
+  font-size: 1.2rem;
+  border-radius: 1rem;
+  transform: rotate(-2deg);
+  border: 1px solid black;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Detalles de película */
+.details {
+  line-height: 1.4;
+  font-size: 1.4rem;
+  padding: 3rem 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.details header {
+  display: flex;
+  gap: 2.4rem;
+  margin-bottom: 2.4rem;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.details img {
+  width: 33%;
+  border-radius: 0.8rem;
+  border: 3px solid var(--color-text);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+  transform: rotate(-2deg);
+  min-width: 150px;
+}
+
+.details-overview {
+  flex: 1;
+  padding: 2rem 2.4rem;
+  background-color: rgba(30, 10, 10, 0.7);
+  border-radius: 0.9rem;
+  border: 2px dashed var(--color-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+  min-width: 250px;
+}
+
+.details-overview h2 {
+  font-size: 2.4rem;
+  margin-bottom: 0.4rem;
+  line-height: 1.1;
+  color: var(--color-accent);
+  text-shadow: 2px 2px 0 black;
+}
+
+.details-overview p {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.details section {
+  padding: 0 2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+/* Componente de calificación */
+.rating {
+  background-color: rgba(30, 10, 10, 0.7);
+  border-radius: 0.9rem;
+  padding: 2rem 2.4rem;
+  margin-bottom: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+  border: 2px dashed var(--color-primary);
+}
+
+/* Mensaje de "peor = mejor" */
+.rating::before {
+  content: "¡Las peores calificaciones son las mejores!";
+  font-size: 1.2rem;
+  color: var(--color-accent);
+  font-style: italic;
+  margin-bottom: -1.5rem;
+  text-align: center;
+  text-shadow: 1px 1px 0 black;
+}
+
+.rating-label {
+  color: var(--color-accent);
+  margin-bottom: 1rem;
+  font-style: italic;
+  text-shadow: 1px 1px 0 black;
+}
+
+.rating-summary {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.rating-explanation {
+  color: var(--color-text);
+  font-style: italic;
+  text-align: center;
+}
+
+.watched-rating {
+  text-align: center;
+  font-size: 1.8rem;
+  color: var(--color-text);
+}
+
+.cringe-explanation {
+  color: var(--color-bad-rating);
+  font-size: 1.6rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 0 black;
+}
+
+/* Botón para añadir película */
+.btn-add {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  border: 2px solid black;
+  border-radius: 1rem;
+  font-size: 1.4rem;
+  padding: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  text-transform: uppercase;
+  transform: rotate(-1deg);
+}
+
+.btn-add:hover {
+  background-color: var(--color-primary-light);
+  transform: scale(1.05) rotate(0deg);
+}
+
+/* Botón para volver */
+.btn-back {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  height: 3.2rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid black;
+  background-color: var(--color-accent);
+  color: var(--color-background-900);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+  font-family: sans-serif;
+  font-size: 2.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+}
+
+.btn-back:hover {
+  transform: scale(1.1) rotate(-10deg);
+  background-color: var(--color-accent-dark);
+}
+
+.movie-plot {
+  background-color: rgba(30, 10, 10, 0.7);
+  border-radius: 0.9rem;
+  padding: 2rem;
+  border: 2px dashed var(--color-primary);
+  line-height: 1.6;
+}
+
+.movie-plot p {
+  margin-bottom: 1.2rem;
+}
+
+.movie-plot p:last-child {
+  margin-bottom: 0;
+}
+
+.criti-badge {
+  margin-left: 1rem;
+  background-color: var(--color-primary-dark);
+  color: var(--color-text);
+  padding: 0.4rem 0.8rem;
+  font-size: 1.2rem;
+  border-radius: 1rem;
+  display: inline-block;
+  transform: rotate(-1deg);
+  border: 1px solid black;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+
+.movie-genre {
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* Estilos para calificaciones */
+.score-regular {
+  color: var(
+    --color-good-rating
+  ); /* Rojo para calificaciones "buenas" (que son malas en CritiCringe) */
+}
+
+.score-cringe {
+  color: var(
+    --color-bad-rating
+  ); /* Verde para calificaciones "malas" (que son buenas en CritiCringe) */
+  font-weight: bold;
+}
+
+.score-label {
+  font-size: 1.2rem;
+  opacity: 0.8;
+  margin-left: 0.5rem;
+}
+
+/* Estilos para el footer */
+.footer {
+  margin-top: 3rem;
+  padding: 1.5rem;
+  background-color: var(--color-background-100);
+  background-image: url("https://www.transparenttextures.com/patterns/black-thread-light.png");
+  border-radius: 0.9rem;
+  text-align: center;
+  position: relative;
+  border-top: 3px solid var(--color-primary);
+  box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.tagline {
+  font-size: 1.8rem;
+  font-style: italic;
+  color: var(--color-accent);
+  text-shadow: 1px 1px 0 black;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.vhs-effect {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    var(--color-accent),
+    var(--color-primary)
+  );
+  opacity: 0.8;
+}
+
+/* Efectos VHS adicionales */
+.scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 10px 1px rgba(255, 255, 255, 0.4);
+  opacity: 0.3;
+  animation: scanline 3s linear infinite;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* Añadir efectos VHS a las listas */
+.list::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    transparent 0px,
+    rgba(0, 0, 0, 0.05) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+  pointer-events: none;
+  opacity: 0.3;
+  z-index: 10;
+}
+
+/* Estilos para mensajes de estado vacío */
+.empty-search,
+.no-results,
+.empty-watched {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 2rem;
+  text-align: center;
+  color: var(--color-text);
+  height: 40vh;
+}
+
+.empty-search p,
+.no-results p,
+.empty-watched p {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  color: var(--color-text);
+  text-shadow: 1px 1px 0 black;
+}
+
+.empty-search-icon {
+  font-size: 6rem;
+  animation: bounce 2s ease infinite;
+  margin-top: 2rem;
+}
+
+.no-results-subtitle,
+.empty-watched-subtitle {
+  font-size: 1.6rem;
+  font-style: italic;
+  color: var(--color-primary-light);
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Media queries para responsividad */
+@media (max-width: 900px) {
+  .main {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .box {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 2.4rem;
+  }
+
+  .nav-bar {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(3, auto);
+    gap: 1.2rem;
+    height: auto;
+    padding: 3rem 2rem 2rem 2rem;
+  }
+
+  .logo,
+  .search,
+  .num-results {
+    justify-self: center;
+  }
+
+  .logo {
+    margin-bottom: 1rem;
+  }
+
+  .logo-tagline {
+    position: static;
+    display: block;
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-left: 0;
+    transform: none;
+  }
+
+  .search {
+    width: 90%;
+  }
+
+  .details img {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  .details header {
+    flex-direction: column;
+  }
+
+  .details-overview {
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  html {
+    font-size: 55%;
+  }
+
+  .summary div {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .logo h1 {
+    font-size: 2.4rem;
+  }
+
+  .logo span {
+    font-size: 3rem;
+  }
+
+  .logo-tagline {
+    margin-left: 0;
+    margin-top: 0.5rem;
+  }
+}
